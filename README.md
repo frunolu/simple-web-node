@@ -1,73 +1,128 @@
-# Welcome to your Lovable project
 
-## Project info
+# Client Information App
 
-**URL**: https://lovable.dev/projects/35f39889-ee81-4baa-a2d1-c4d6414a58f1
+## Overview
 
-## How can I edit this code?
+The **Client Information App** is a simple Node.js application that displays client-specific information such as IP address, browser details, and geolocation data. This application is designed for educational purposes, allowing students to learn how to work with Node.js, fetch client information, and deploy to Google Cloud.
 
-There are several ways of editing your application.
+### Features
 
-**Use Lovable**
+- Displays client's IP address, browser information, and operating system.
+- Fetches geolocation data (city, region, country, latitude, and longitude) based on the IP address.
+- Styled with Bootstrap for a simple and clean user interface.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/35f39889-ee81-4baa-a2d1-c4d6414a58f1) and start prompting.
+## Prerequisites
 
-Changes made via Lovable will be committed automatically to this repo.
+Before you begin, ensure you have the following installed:
 
-**Use your preferred IDE**
+- **Node.js** (version 14 or higher recommended)
+- **npm** (comes with Node.js)
+- **Google Cloud SDK** (for deploying to Google App Engine)
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Getting Started
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### 1. Clone the Repository
 
-Follow these steps:
+To clone this repository to your local machine, run:
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```bash
+git clone <repository-url>
+cd client-info-app
 ```
 
-**Edit a file directly in GitHub**
+Replace `<repository-url>` with the actual URL of the repository.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### 2. Install Dependencies
 
-**Use GitHub Codespaces**
+Navigate to the project directory and install the required Node.js packages:
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```bash
+npm install
+```
 
-## What technologies are used for this project?
+This command installs the necessary dependencies listed in the `package.json` file, including **Express**, **request-ip**, and **axios**.
 
-This project is built with:
+### 3. Run the Application Locally
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+To start the application on your local machine, use the following command:
 
-## How can I deploy this project?
+```bash
+node app.js
+```
 
-Simply open [Lovable](https://lovable.dev/projects/35f39889-ee81-4baa-a2d1-c4d6414a58f1) and click on Share -> Publish.
+By default, the app will run on `http://localhost:3000`. Open this URL in your browser to see the client information displayed.
 
-## Can I connect a custom domain to my Lovable project?
+### 4. Deploying to Google App Engine
 
-Yes, you can!
+You can deploy this application to Google Cloud using Google App Engine. Follow these steps:
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+#### Step 1: Set Up Google Cloud Project
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+1. Go to [Google Cloud Console](https://console.cloud.google.com/).
+2. Create a new project or select an existing project.
+3. Make sure **App Engine** and **Cloud Build** APIs are enabled.
+4. Before deployment grant App Engine Deployer role to App Engine default service account. In the Google Cloud Console navigate to IAM & Admin next go to IAM. You should see permissions for your project. There will be Default App Engine Service account - please add App Engine Deployer role using pencil icon beside.
+
+#### Step 2: Create `app.yaml` for Google App Engine
+
+In the root directory of your project, create a file named `app.yaml` with the following content:
+
+```yaml
+runtime: nodejs20
+instance_class: F1
+env: standard
+```
+
+This configuration file specifies the runtime environment and instance class for the app on Google App Engine.
+
+#### Step 3: Deploy the Application
+
+1. Authenticate your Google Cloud CLI:
+
+   ```bash
+   gcloud auth login
+   ```
+
+2. Set the project ID (replace `your-project-id` with your actual Google Cloud Project ID):
+
+   ```bash
+   gcloud config set project your-project-id
+   ```
+
+3. Deploy the application:
+
+   ```bash
+   gcloud app deploy
+   ```
+
+4. Confirm the deployment if prompted. Once completed, Google will provide a URL for your deployed application.
+
+#### Step 4: Access the Deployed Application
+
+After successful deployment, visit the provided URL to see your app running on Google App Engine. The application should now display the IP, browser information, and geolocation data for each visitor.
+
+## Additional Notes
+
+- The app may display "localhost" as the IP address when running locally. Real IP data is displayed when the app is hosted on a server.
+- Location information will show "N/A" if it’s unable to fetch data based on the IP address.
+
+## Cleanup Instructions
+
+After completing the deployment exercise, it's essential to clean up the resources to avoid unnecessary charges on your Google Cloud account. Follow these steps to remove the resources:
+
+1. **Delete the App Engine Application**: 
+   - Open the [Google Cloud Console](https://console.cloud.google.com/).
+   - Go to **App Engine > Settings**.
+   - Click **Disable Application**. This will stop all running services and delete the App Engine instance.
+
+2. **Delete the Google Cloud Project**: 
+   - If the project was created specifically for this exercise and is no longer needed, you can delete the entire project, which will remove all resources associated with it.
+   - Go to **IAM & Admin > Manage Resources** in the Cloud Console.
+   - Select the project used for this exercise.
+   - Click **Delete** and confirm the action.
+
+This cleanup will ensure that no unnecessary charges are incurred and that your Google Cloud credits are preserved for future projects.
+
+## License
+
+This project is licensed under the MIT License. Feel free to use it for educational purposes.
